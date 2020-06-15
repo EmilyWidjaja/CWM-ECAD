@@ -79,12 +79,12 @@ module top_tb(
 	 end
 
 //Condition 3&4: counts up when dir = 1 & counts down when dir = 0
-	if (rst!=1&&en!=0&&dir==1&&(count_prev!=count_now-1))
+	if (rst!=1&&enable!=0&&dir==1&&(count_prev!=count_now-1))
 	 $display("***TEST FAILED! counter does not count up when dir=1! previous counter=%d, current counter=%d, reset=%d, en=%d, dir=%d***",count_prev,count_now,rst,enable,dir);
 	 err=1;
 	 end
 
-	if (rst!=1&&en!=0&&dir==0&&(count_prev!=count_now+1))
+	if (rst!=1&&enable!=0&&dir==0&&(count_prev!=count_now+1))
 	 $display("***TEST FAILED! counter does not count down when dir=0! previous counter=%d, current counter=%d, reset=%d, en=%d, dir=%d***",count_prev,count_now,rst,enable,dir);
 	 err=1;
 	 end
