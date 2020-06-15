@@ -18,7 +18,7 @@ module top_tb(
 
 //Todo: Registers and wires
 	reg clk;
-	reg [7:0] count_now;
+	wire [7:0] count_now;
 	reg [7:0] count_prev;
 	reg rst;
 	reg enable;
@@ -26,26 +26,47 @@ module top_tb(
 	reg err;
 
 //Todo: Clock generation
+   //general clock
 	initial
 	 begin
 	  clk = 1'b0;
 	  forever
 	   #(CLK_PERIOD/2) clk = ~clk;
 	 end
-
+  //clock for reset
+	initial begin
+	  rst = 1;
+	  #(CLK_PERIOD) rst = 0;
+	  //#(2*CLK_PERIOD) rst = 0;
+	end
+  //clock for enable
+	//initial begin
+	  //enable = 1;
+	  //#(3*CLK_PERIOD) enable = 0;
+          //#(CLK_PERIOD) enable = 1;
+	  //#(10*CLK_PERIOD) enable = 0;
+	//end
+  //clock for direction
+	initial begin
+	  dir = 1;
+	  #(3*CLK_PERIOD) dir = 0;
+	  #(CLK_PERIOD) dir = 1;
+	  #(5*CLK_PERIOD) dir = 0;
+	  #(CLK_PERIOD) dir = 1;
+	end
+assign count_now = 0;
 //Todo: User logic
     initial begin
 	//define initial state. Starting counter for 0 and holding for length of enable. Dir should not matter
-     count_now = 0;
-     count_prev = count_now;
-     rst = 0;
-     enable = 0;
-     dir = 0;	
+     //count_now = 0;
+     count_prev = 0;
+     enable = 1;	
      #6
 
 	//begin checking for correct behaviour
      forever begin
 	#(CLK_PERIOD-6)
+	count_prev = count_now;
 
 //Condition 1: rst = 1, counter = 0
 	if (rst==1&&count_now!=0)
@@ -55,7 +76,7 @@ module top_tb(
 	end
 
 //Condition 2: en = 0, rst = 0, counter = count_prev
-	#6
+	//#6
 	if (enable==0&&(count_now!=count_prev))
 	begin
 	 $display("***TEST FAILED! counter changes when en=0!previous counter=%d, current counter=%d, reset=%d, en=%d***",count_prev,count_now,rst,enable);
@@ -63,12 +84,12 @@ module top_tb(
 	 end
 
 //Condition 3&4: counts up when dir = 1 & counts down when dir = 0
-	#6
+//	#6
 	if (dir==1&&(count_prev!=count_now-1))
 	 $display("***TEST FAILED! counter does not count up when dir=1! previous counter=%d, current counter=%d, reset=%d, en=%d, dir=%d***",count_prev,count_now,rst,enable,dir);
 	 err=1;
 	 end
-	#6
+	//#6
 	if (dir==0&&(count_prev!=count_now+1))
 	 $display("***TEST FAILED! counter does not count down when dir=0! previous counter=%d, current counter=%d, reset=%d, en=%d, dir=%d***",count_prev,count_now,rst,enable,dir);
 	 err=1;
