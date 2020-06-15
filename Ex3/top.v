@@ -24,32 +24,32 @@ module counter(
 	input rst,
 	input enable,
 	input dir,
-	output [7:0] counter_out
+	output reg [7:0] counter_out
     );
                     
     //Todo: add registers and wires, if needed
-	reg [7:0] counter_out;
+	//reg [7:0] counter_out;
 
     //Todo: add user logic
-	always @ (posedge clk or posedge rst) 
+	always @ (posedge clk) 
 	begin
 	//reset is on, counter set to 0
 	 if (rst) begin
 	    counter_out<=0;
 	 end
-
-	 if (enable==0) begin//reset = 0, and enable is on, so hold
-	    counter_out<=counter_out;
-	 end
-
-	 else begin/enable &rst is off, so count up or down
-	    if (dir) begin
+	 else begin
+	    if (enable==0) begin//reset = 0, and enable is on, so hold
+	     counter_out<=counter_out;
+	    end
+	    else begin //enable &rst is off, so count up or down
+	      if (dir) begin
 		counter_out<=counter_out+1;
-	    end
-	    else begin
+	      end
+	      else begin
 		counter_out<=counter_out-1;
+	      end
 	    end
-	 end
+	  end
 
 	end
 endmodule

@@ -40,12 +40,12 @@ module top_tb(
      count_prev = count_now;
      rst = 0;
      enable = 0;
-     direction = 0;	
-     #6	//why wait 6 tics?
+     dir = 0;	
+     #6
 
 	//begin checking for correct behaviour
      forever begin
-	#(CLK_PERIOD-6)	//again,why a delay?
+	#(CLK_PERIOD-6)
 
 //Condition 1: rst = 1, counter = 0
 	if (rst==1&&count_now!=0)
@@ -56,7 +56,7 @@ module top_tb(
 
 //Condition 2: en = 0, rst = 0, counter = count_prev
 	#6
-	if (en==0&&(count_now!=count_prev))
+	if (enable==0&&(count_now!=count_prev))
 	begin
 	 $display("***TEST FAILED! counter changes when en=0!previous counter=%d, current counter=%d, reset=%d, en=%d***",count_prev,count_now,rst,enable);
 	 err=1;
@@ -79,7 +79,7 @@ module top_tb(
 	#200
 	if (err==0)
 	 $display("***TEST PASSED!***");
-	$finish
+	$finish;
     end
 
 //Todo: Instantiate counter module
