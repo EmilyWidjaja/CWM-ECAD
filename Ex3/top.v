@@ -35,18 +35,18 @@ module counter(
 	begin
 	//reset is on, counter set to 0
 	 if (rst) begin
-	    counter_out=0;
+	    counter_out<=0;
 	 end
 	 else begin
 	    if (enable==0) begin//reset = 0, and enable is on, so hold
-	     counter_out=counter_out;
+	     counter_out<=counter_out;
 	    end
 	    else begin //enable &rst is off, so count up or down
 	      if (dir) begin
-		   counter_out=counter_out+1;
+		   counter_out<=counter_out+1;
 	      end
 	      else begin
-		   counter_out=counter_out-1;
+		   counter_out<=counter_out-1;
 	      end
 	    end
 	  end
