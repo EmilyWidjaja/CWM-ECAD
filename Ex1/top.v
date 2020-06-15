@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Exercise #1 
-// Student Name:
-// Date: 
+// Student Name: Emily Widjaja
+// Date: 15 Jun '20
 //
 //  Description: In this exercise, you need to design a logical unit, where the  
 //  output acts according to the following truth table:
@@ -32,5 +32,6 @@ module logicalunit(
     wire   out;
          
       //Todo: add you logic here
+    assign out=(~a&~b&func[0])|(~a&b&func[1])|(a&~b&func[2])|(a&b&func[3]);
 
 endmodule
