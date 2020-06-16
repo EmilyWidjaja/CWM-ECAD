@@ -24,19 +24,21 @@ module traffic(
 
   //add registers and wires
 //maybe something to combine the output into input? since old 
-	wire [2:0] current_signal;
+	reg [2:0] current_signal;
 
   //add user logic
-	assign current_signal[0] = red;
-	assign current_signal[1] = amber;
-	assign current_signal[2] = green; //current_signal might need to be reg idk.
+	//assign current_signal[0] = red;
+	//assign current_signal[1] = amber;
+	//assign current_signal[2] = green; //for current_signal as a wire.
 
 	always @ (posedge clk)
 	  begin
-
+	  //current signal as a reg
+	  current_signal[0]<=red;
+	  current_signal[1]<=amber;
+	  current_signal[2]<=green;
 	  //legal state 1: red -> red,amber
-	  if (current_signal==3'b001)
-//(current_signal[0]==1) && (current_signal[2:1]==0) ) 
+	  if (current_signal==3'b001) //(red==1)&&(amber==0)&&(green==0) )//( (current_signal[0]==1) && (current_signal[2:1]==0) ) //
 	  begin
 	    red<=1;	//technically this is unnecessary since already red
 	    amber<=1;
@@ -74,6 +76,12 @@ module traffic(
 	    amber<=0;
 	    green<=0;
 	  end
+	  
+	  if (current_signal==1'bX) begin
+	    red<=1;
+	    amber<=0;
+	    green<=0;
+	  end   
 
 	end //always
 

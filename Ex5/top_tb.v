@@ -34,16 +34,13 @@ module top_tb(
 	 end
 
 //user logic
-	assign red = current_signal[0];
-	assign amber = current_signal[1];
-	assign green = current_signal[2];
 
 	initial begin
 	  err=0;
 	  //initialise current signal as red
-	  current_signal[0] = 1;	//red
-	  current_signal[1] = 0;  //amber
-	  current_signal[2] = 0;  //green
+	  //current_signal[0] = 1;	//red
+	  //current_signal[1] = 0;  //amber
+	  //current_signal[2] = 0;  //green
 	  prev_signal = current_signal;
 	  #1
 	  forever begin
@@ -81,7 +78,7 @@ module top_tb(
     end
 
 //Instantiate counter module
-traffic top(
+traffic top (
   .clk (clk),
   .red (red),
   .amber (amber),
