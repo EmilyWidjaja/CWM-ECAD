@@ -29,7 +29,7 @@ module top_tb(
    //general clock
 	initial
 	 begin
-	  clk = 1'b0;
+	  clk = 1'b1;
 	  forever
 	   #(CLK_PERIOD/2) clk = ~clk;
 	 end
@@ -40,12 +40,12 @@ module top_tb(
 	  //#(2*CLK_PERIOD) rst = 0;
 	end
   //clock for enable
-	//initial begin
-	  //enable = 1;
-	  //#(3*CLK_PERIOD) enable = 0;
-          //#(CLK_PERIOD) enable = 1;
-	  //#(10*CLK_PERIOD) enable = 0;
-	//end
+	initial begin
+	  enable = 1;
+	  #(3*CLK_PERIOD) enable = 0;
+      #(CLK_PERIOD) enable = 1;
+	  #(10*CLK_PERIOD) enable = 0;
+	end
   //clock for direction
 	initial begin
 	  dir = 1;
@@ -54,15 +54,19 @@ module top_tb(
 	  #(5*CLK_PERIOD) dir = 0;
 	  #(CLK_PERIOD) dir = 1;
 	end
+
 //Todo: User logic
-    initial begin
+    initial 
+    begin
 	//define initial state. Starting counter for 0 and holding for length of enable. Dir should not matter
-     count_prev = count_now;
-     enable = 1;	
+     err=0;
+     count_prev=count_now;	
+     #1
 
 	//begin checking for correct behaviour
-     forever begin
-	#(CLK_PERIOD-6)
+     forever 
+     begin
+	#(CLK_PERIOD)
 
 //Condition 1: rst = 1, counter = 0
 	if (rst==1&&count_now!=0)
@@ -79,15 +83,23 @@ module top_tb(
 	 end
 
 //Condition 3&4: counts up when dir = 1 & counts down when dir = 0
-	if (rst!=1&&enable!=0&&dir==1&&(count_prev!=count_now-1))
-	 $display("***TEST FAILED! counter does not count up when dir=1! previous counter=%d, current counter=%d, reset=%d, en=%d, dir=%d***",count_prev,count_now,rst,enable,dir);
+	if (rst!=1&&enable!=0&&clk==1&&dir==1&&(count_prev!=count_now-1)) begin
+	 $display("***TEST FAILED! counter does not count up when dir=1! previous counter=%d, current counter=%d, reset=%d, en=%d, dir=%d, clk=%d***",count_prev,count_now,rst,enable,dir,clk);
 	 err=1;
-	 end
+	end
+	 
 
-	if (rst!=1&&enable!=0&&dir==0&&(count_prev!=count_now+1))
+
+
+	if (rst!=1&&enable!=0&&clk==1&&dir==0&&(count_prev!=count_now+1))  begin
 	 $display("***TEST FAILED! counter does not count down when dir=0! previous counter=%d, current counter=%d, reset=%d, en=%d, dir=%d***",count_prev,count_now,rst,enable,dir);
 	 err=1;
-	 end
+	end
+	
+    count_prev = count_now; 
+	end
+      end
+
 	
 //Todo: Finish test, check for success
     initial begin
@@ -98,7 +110,7 @@ module top_tb(
     end
 
 //Todo: Instantiate counter module
- counter top (
+ counter top(
   .clk (clk),
   .rst (rst),
   .enable (enable),
