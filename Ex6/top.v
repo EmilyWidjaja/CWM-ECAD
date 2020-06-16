@@ -39,7 +39,7 @@ module DiceOrTraffic(
 
   //add user logic
 	//call Dice
-  Dice(
+  Dice dice_out(
     .clk (clk),
     .rst (rst),
     .button (button),
@@ -47,7 +47,7 @@ module DiceOrTraffic(
     );
 
 	//call traffic
-  Traffic(
+  Traffic traffic_out (
      .clk (clk),
      .red (red),
      .amber (amber),
@@ -59,7 +59,7 @@ module DiceOrTraffic(
   assign traffic_lights[2] = green;
 
 	//call multiplexer
-  Mux(
+  Mux multiplexer (
     .a (throw),
     .b (traffic_lights),
     .sel (sel),
