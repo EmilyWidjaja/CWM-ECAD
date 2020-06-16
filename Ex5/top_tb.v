@@ -37,14 +37,10 @@ module top_tb(
 
 	initial begin
 	  err=0;
-	  //initialise current signal as red
-	  //current_signal[0] = 1;	//red
-	  //current_signal[1] = 0;  //amber
-	  //current_signal[2] = 0;  //green
 	  prev_signal = current_signal;
 	  #1
 	  forever begin
-	    #CLK_PERIOD
+	    #(2*CLK_PERIOD)
 
 	  //check that is a legal state
 	    if (((current_signal==3'b001) || (current_signal==3'b011) || (current_signal==3'b100) || (current_signal==3'b010))==0) begin
