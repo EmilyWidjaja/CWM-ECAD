@@ -64,19 +64,29 @@ module top_tb(
 	    end
 
 	    //condition 2: button = 0, throw changes & throw is not special conditions
-	    if ( (throw!=3'b000)||(throw!=3'b111)&&(rst==0)) begin
-	      if ((button==0)&&(throw_prev!=throw)) begin
-		$display("***TEST FAILED! Throw changed when button is 0. button=%d, throw=%d, previous throw=%d***",button,throw,throw_prev);
+	    if (rst==0) begin
+	      if ( (throw!=3'b000)||(throw!=3'b111) ) begin
+	        if ((button==0)&&(throw_prev!=throw)) begin
+		  $display("***TEST FAILED! Throw changed when button is 0. button=%d, throw=%d, previous throw=%d***",button,throw,throw_prev);
+	    	  err=1;
+	       end
+	      end //if for non-special cases
+
+	      //condition 3: button = 1, throw doesn't change
+	      if ((button==1)&&(throw_prev==throw)) begin
+	        $display("***TEST FAILED! Throw doesn't change when button is 1. button=%d, throw=%d, previous throw=%d***",button,throw,throw_prev);
 		err=1;
 	      end
-	    end
+	    
 
-	    //condition 3: button = 1, throw doesn't change
-	    if ((button==1)&&(throw_prev==throw)&&(rst==0)) begin
-	      $display("***TEST FAILED! Throw doesn't change when button is 1. button=%d, throw=%d, previous throw=%d***",button,throw,throw_prev);
-	    end
-	    throw_prev = throw;
+	    //condition 4: when throw is 3'b001, it moves to 3'b010
+	      if ((button==1)&&(throw_prev==3'b001)&&(throw!=3'b010)) begin
+		$display("***TEST FAILED! Throw doesn't move in correct sequence. button=%d, throw=%d ,previous throw =%d***",button,throw,throw_prev);
+		err=1;
+	      end
 
+	    end//if for reset = 0
+	  throw_prev = throw;
 	  end//forever
 	end //initial
 
