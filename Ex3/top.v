@@ -30,7 +30,7 @@ module counter(
     //Todo: add registers and wires, if needed
 	//reg [7:0] counter_out;
 
-    //Todo: add user logic
+    //Todo: add user logic (complete)
 	always @ (posedge clk) 
 	begin
 	//reset is on, counter set to 0
