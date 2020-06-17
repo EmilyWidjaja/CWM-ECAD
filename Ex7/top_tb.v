@@ -19,7 +19,7 @@ module top_tb(
 	reg [2:0] a;
 	reg [2:0] b;
 	reg clk;
-	wire [2:0] result;
+	wire [5:0] result;
 	reg err;
 	reg read;
 
