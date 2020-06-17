@@ -27,7 +27,7 @@ module DiceOrTraffic(
 	input clk,
 	input button,
 	input sel,
-	output [2:0] result //reg?
+	output [2:0] result 
   );
 
   //add intermediate wires
@@ -39,15 +39,15 @@ module DiceOrTraffic(
 
   //add user logic
 	//call Dice
-  Dice dice_out(
+  dice dice_out(
     .clk (clk),
     .rst (rst),
     .button (button),
-    .throw (throw)
+    .throw (throw[2:0])
     );
 
 	//call traffic
-  Traffic traffic_out (
+  traffic traffic_out (
      .clk (clk),
      .red (red),
      .amber (amber),
@@ -59,11 +59,11 @@ module DiceOrTraffic(
   assign traffic_lights[2] = green;
 
 	//call multiplexer
-  Mux multiplexer (
-    .a (throw),
-    .b (traffic_lights),
+  mux multiplexer (
+    .a (throw[2:0]),
+    .b (traffic_lights[2:0]),
     .sel (sel),
-    .out (result)
+    .out (result[2:0])
     );
 
 endmodule

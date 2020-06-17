@@ -20,7 +20,9 @@ module top_tb(
 	reg clk;
 	reg button;
 	reg sel;
-	reg result;
+	reg prev_sel;
+	wire [2:0] result;
+	reg [2:0] prev_result;
 	reg err;
 
 //Generate clocks
@@ -50,6 +52,7 @@ module top_tb(
 	//sel
 	initial begin;
 	  sel = 1'b1;	//starts with traffic lights
+	  forever
 	  #(4*CLK_PERIOD) sel = ~sel;
 	end
 
@@ -69,9 +72,24 @@ module top_tb(
 
 	//case 2: multiplexer not instantiated
 
-	//when sel = 0, dice should be the output (hmmm, think about how to check these...)
+	//when sel = 0, dice should be the output (could test, by adding in sel_prev, so when sel = 0 for 2 or more clock cycles, it will check that it is following the correct sequence. Maybe using a case? This is quite a lot of code though, so I won't implement it just yet.
 
-	//when sel = 1, traffic should be the output
+
+	//when sel = 1, traffic should be the output. If this fails, it could also be an error in the traffic code, as the code might not be able to correct from illegal states.
+	      if ( (sel==1)&&(prev_sel==1) ) begin
+		//checks for sequence
+		if ( ((prev_result==3'b001) && (result!=3'b011)) || ((prev_result==3'b011) && (result!=3'b100)) || ((prev_result==3'b100) && (result!=3'b010)) || ((prev_result==3'b010) && (result!=3'b001)) ) begin
+		  $display("***TEST FAILED! Traffic light incorrect sequence. prev_result=%b,result=%b,sel=%d***",prev_result,result,sel);
+		  err=1; 
+		end
+		//checks for illegal states
+		if ( ((result==3'b001) || (result==3'b011) || (result==3'b100) || (result==3'b010))==0 ) begin
+		  $display("***TEST FAILED! Traffic light in illegal state! result=%b,sel=%d***",result,sel);
+		  err=1;
+		end
+	      end
+	    prev_sel=sel;
+	    prev_result=result;
 	  end //forever
 	end //initial
 
