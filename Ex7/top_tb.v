@@ -41,6 +41,7 @@ module top_tb(
 	initial begin
 	  b = 3'b000;
 	  forever begin
+	    #CKL_PERIOD
 	    if (b<=3'b111)
 	     b=b+3'b001;
 	    else
