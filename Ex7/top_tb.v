@@ -38,7 +38,7 @@ module top_tb(
 	  forever
 	  #(CLK_PERIOD/2) read = ~read;
 	end
-	//a input. For first test, will test for 3 times tables, so a will be constant and initialised in 'initialise'
+	//a input. For first test, will test for 7 times tables, so a will be constant and initialised in 'initialise'
 	 
 	  
 	//b input. Counts up then resets to 0.
