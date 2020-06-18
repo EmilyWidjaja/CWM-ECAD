@@ -20,28 +20,30 @@ module multiplication(
 	input [2:0] a,
 	input [2:0] b,
 	input read,
-	output reg [5:0] result
+	output [5:0] result
   );
 
 //add intermediate wires
-	wire wea
-	wire [5:0] dina
+	wire wea;
+	wire [5:0] dina;
+	reg [5:0] address;
 
 //add user logic
 	assign dina = 6'b0;
 	assign wea = 0;
 
-	//always @ (posedge clk) begin
-	 //if (read);
+	always @ (a||b)
+	 address<={a,b};
+
 
 //instantiating memory block
 blk_mem_gen_0 mymem (
   .clka(clk),    // input wire clka
   .ena(read),      // input wire ena
   .wea(wea),      // input wire [0 : 0] wea
-  .addra({a,b}),  // input wire [5 : 0] addra
+  .addra(address),  // input wire [5 : 0] addra
   .dina(dina),    // input wire [5 : 0] dina
   .douta(result)  // output wire [5 : 0] douta
 );
 
-	
+endmodule	
