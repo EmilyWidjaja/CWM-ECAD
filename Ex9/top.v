@@ -25,6 +25,9 @@ module top(
     output reg led_2
    );
     
+parameter frequency0=20000000;	//50Hz
+parameter frequency1=30000000;  //<50Hz
+parameter frequency2=40000000;  //<50Hz
 
    /* clock infrastructure, do not modify */ //generates clock for use
         wire clk_ibufds;
@@ -45,35 +48,43 @@ module top(
 
 //Add logic here
 //led_0
-	always (@ posedge clk) begin
-
-	  if (button) begin
+	always @ (posedge clk) begin
+	  if (button) 
 	    led_0<=1;
-	    led_1<=1;
-	    led_2<=1;
-	  end
 
-	  if (rst_n) begin
+	  if (rst_n) 
 	    led_0<=0;
-	    led_1<=0;
-	    led_2<=0;
-	  end
 
-	  else
-	//blinking for led_0
+	  else begin
 	  #(frequency0/2) led_0<=1;
 	  #(frequency0/2) led_0<=0;
-
-	//blinking for led_1
-	  #(frequency1/2) led_1<=1;
-	  #(frequency1/2) led_1<=0;
-
-	//blinking for led_2
-	  #(frequency2/2) led_2<=1;
-	  #(frequency2/2) led_2<=0;
-
+	  end
 	end
 
-endmodule
+	always @ (posedge clk) begin
+	  if (button) 
+	    led_1<=1;
+
+	  if (rst_n) 
+	    led_1<=0;
+
+	  else begin
+	  #(frequency0/2) led_1<=1;
+	  #(frequency0/2) led_1<=0;
+	  end
+	end
+
+	always @ (posedge clk) begin
+	  if (button) 
+	    led_0<=1;
+
+	  if (rst_n) 
+	    led_0<=0;
+
+	  else begin
+	  #(frequency0/2) led_0<=1;
+	  #(frequency0/2) led_0<=0;
+	  end
+	end
 
 endmodule
