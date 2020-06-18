@@ -75,7 +75,7 @@ module top_tb(
 	    #CLK_PERIOD
 	    $display("***a=%d,b=%d,result=%d***",a,b,result);
 	  
-	    if (result==1'bX) begin
+	    if ( (result==1'bX)||(result==1'bZ) ) begin
 	      $display("***TEST FAILED! Result is undefined. a=%d,b=%d,result=%d***",a,b,result);
 	      err=1;
 	    end

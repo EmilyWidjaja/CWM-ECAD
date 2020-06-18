@@ -59,7 +59,7 @@ mymem mymemory (
   .s_axi_araddr(address),    // input wire [31 : 0] s_axi_araddr
   .s_axi_arvalid(read),  // input wire s_axi_arvalid
   .s_axi_arready(s_axi_arready),  // output wire s_axi_arready
-  .s_axi_rdata(s_axi_rdata),      // output wire [31 : 0] s_axi_rdata/
+  .s_axi_rdata(result),      // output wire [31 : 0] s_axi_rdata/
   .s_axi_rresp(s_axi_rresp),      // output wire [1 : 0] s_axi_rresp
   .s_axi_rvalid(s_axi_rvalid),    // output wire s_axi_rvalid
   .s_axi_rready(read)    // input wire s_axi_rready
