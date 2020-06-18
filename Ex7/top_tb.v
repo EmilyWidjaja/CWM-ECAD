@@ -27,21 +27,26 @@ module top_tb(
 	//general clk & read clock
 	initial begin
 	  clk = 1'b1;
-	  //read = 1'b1;
+	  #1
 	  forever begin
 	   #(CLK_PERIOD/2) clk = ~clk;
-	   //#(CLK_PERIOD/2) read = ~read;
 	  end
 	end
-
+	
+	initial begin
+	  read = 1'b1;
+	  forever
+	  #(CLK_PERIOD/2) read = ~read;
+	end
 	//a input. For first test, will test for 3 times tables, so a will be constant and initialised in 'initialise'
 	 
 	  
 	//b input. Counts up then resets to 0.
 	initial begin
 	  b = 3'b000;
+	  #1
 	  forever begin
-	    #(2*CLK_PERIOD)
+	    #(CLK_PERIOD)
 	    if (b<=3'b111)
 	     b=b+3'b001;
 	    else
@@ -54,7 +59,7 @@ module top_tb(
 	//initialise
 	initial begin
 	  err=0;
-	  a = 3'b111; //tests 3 times tables
+	  a = 3'b111; //tests 7 times tables
 	  #1
 
 	//forever, display a & b and result and check by eye if correct. If any undefined states, then failed. 
