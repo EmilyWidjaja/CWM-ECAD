@@ -50,17 +50,11 @@ module top(
 
 //Add logic here
 //led_0
-	initial begin
-	  timer<=0;
-	end
+//	initial begin
+//	  timer<=0;
+//	end
 
-	always @ (posedge clk) begin
-	  if (button) begin
-	    led_0<=1;
-	    led_1<=1;
-	    led_2<=1;
-	    timer<=0;
-	  end
+	always @(posedge clk) begin
 
 	  if (rst_n) begin
 	    led_0<=0;
@@ -70,26 +64,33 @@ module top(
 	  end
 
 	  else begin
-	    //led_0
-	    if (timer == PERIOD0)
+	    if (button) begin
 	      led_0<=1;
-	    else
-	      led_0<=0;
-
-	    //led_1
-	    if (timer == PERIOD1)
 	      led_1<=1;
-	    else
-	      led_1<=0;
-
-	    //led_2
-	    if (timer == PERIOD0)
 	      led_2<=1;
-	    else
-	      led_2<=0;
-	    timer<=timer+10;
-	  end //else
+	      timer<=0;
+	    end 
+	      else begin
+	      //led_0
+	        if (timer == PERIOD0)
+	          led_0<=1;
+	        else
+	          led_0<=0;
 
+	      //led_1
+	        if (timer == PERIOD1)
+	          led_1<=1;
+	        else
+	          led_1<=0;
+
+	      //led_2
+	        if (timer == PERIOD0)
+	          led_2<=1;
+	        else
+	          led_2<=0;
+	        timer<=timer+10;
+	      end //else
+     	    end //else
 	end //always
 
 endmodule
