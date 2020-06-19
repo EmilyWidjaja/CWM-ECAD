@@ -25,9 +25,10 @@ module top(
     output reg led_2
    );
     
-parameter frequency0=20000000;	//50Hz
-parameter frequency1=30000000;  //<50Hz
-parameter frequency2=40000000;  //<50Hz
+	parameter PERIOD0=20000000;	//50Hz
+	parameter PERIOD1=30000000;  //<50Hz
+	parameter PERIOD2=40000000;  //<50Hz
+	reg timer;
 
    /* clock infrastructure, do not modify */ //generates clock for use
         wire clk_ibufds;
@@ -48,43 +49,46 @@ parameter frequency2=40000000;  //<50Hz
 
 //Add logic here
 //led_0
+	initial begin
+	  timer<=0;
+	end
+
 	always @ (posedge clk) begin
-	  if (button) 
+	  if (button) begin
 	    led_0<=1;
-
-	  if (rst_n) 
-	    led_0<=0;
-
-	  else begin
-	  #(frequency0/2) led_0<=1;
-	  #(frequency0/2) led_0<=0;
-	  end
-	end
-
-	always @ (posedge clk) begin
-	  if (button) 
 	    led_1<=1;
-
-	  if (rst_n) 
-	    led_1<=0;
-
-	  else begin
-	  #(frequency1/2) led_1<=1;
-	  #(frequency1/2) led_1<=0;
-	  end
-	end
-
-	always @ (posedge clk) begin
-	  if (button) 
 	    led_2<=1;
+	    timer<=0;
+	  end
 
-	  if (rst_n) 
+	  if (rst_n) begin
+	    led_0<=0;
+	    led_1<=0;
 	    led_2<=0;
+	    timer<=0;
+	  end
 
 	  else begin
-	  #(frequency2/2) led_2<=1;
-	  #(frequency2/2) led_2<=0;
-	  end
-	end
+	    //led_0
+	    if (timer == PERIOD0)
+	      led_0<=1;
+	    else
+	      led_0<=0;
+
+	    //led_1
+	    if (timer == PERIOD1)
+	      led_1<=1;
+	    else
+	      led_1<=0;
+
+	    //led_2
+	    if (timer == PERIOD0)
+	      led_2<=1;
+	    else
+	      led_2<=0;
+	    timer<=timer+10;
+	  end //else
+
+	end //always
 
 endmodule
