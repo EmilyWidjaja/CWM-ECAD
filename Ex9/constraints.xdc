@@ -19,13 +19,12 @@ set_property BITSTREAM.CONFIG.SPI_FALL_EDGE YES        [current_design]
 #clk_n
 set_property PACKAGE_PIN AY38 [get_ports {clk_n}]
 set_property IOSTANDARD DIFF_SSTL12 [get_ports {clk_n}]
+create_clock -name <clk_n> -period <10> <clk_n>
 
 #clk_p
 set_property PACKAGE_PIN AY37 [get_ports {clk_p}]
 set_property IOSTANDARD DIFF_SSTL12 [get_ports {clk_p}]
-
-#clk
-create_clock -name <clk> -period <10> <clk_p,clk_n>
+create_clock -name <clk_p> -period <10> <clk_p>
 
 #rst_n
 set_property PACKAGE_PIN BD21 [get_ports {rst_n}]

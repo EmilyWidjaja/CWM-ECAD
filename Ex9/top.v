@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Exercise #9 
-// Student Name:
-// Date: 
+// Student Name: Emily Widjaja
+// Date: 19 June 2020
 //
 //  Description: In this exercise, you need to design a module that lights leds
 //  at different frequencies
@@ -69,21 +69,21 @@ parameter frequency2=40000000;  //<50Hz
 	    led_1<=0;
 
 	  else begin
-	  #(frequency0/2) led_1<=1;
-	  #(frequency0/2) led_1<=0;
+	  #(frequency1/2) led_1<=1;
+	  #(frequency1/2) led_1<=0;
 	  end
 	end
 
 	always @ (posedge clk) begin
 	  if (button) 
-	    led_0<=1;
+	    led_2<=1;
 
 	  if (rst_n) 
-	    led_0<=0;
+	    led_2<=0;
 
 	  else begin
-	  #(frequency0/2) led_0<=1;
-	  #(frequency0/2) led_0<=0;
+	  #(frequency2/2) led_2<=1;
+	  #(frequency2/2) led_2<=0;
 	  end
 	end
 
